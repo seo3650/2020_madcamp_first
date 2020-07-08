@@ -4,12 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_alignWithParentIfMissing="false"
+    android:layout_alignParentLeft="false"
+    android:layout_alignParentRight="false"
+    android:layout_centerHorizontal="false"
+    android:layout_centerVertical="false"
+    android:clipToPadding="false"
     tools:context=".MainActivity">
 
+
+
+
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
+
 
         <TextView
             android:id="@+id/title"
@@ -32,7 +43,9 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    </androidx.viewpager.widget.ViewPager>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -41,4 +54,137 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:addStatesFromChildren="false"
+            android:columnCount="2"
+            android:rowCount="10">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+            <ImageView
+                android:id="@+id/imageView12"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+            <ImageView
+                android:id="@+id/imageView13"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+            <ImageView
+                android:id="@+id/imageView14"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+
+            <ImageView
+                android:id="@+id/imageView15"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+            <ImageView
+            android:id="@+id/imageView16"
+            android:layout_width="200dp"
+            android:layout_height="121dp"
+            android:src="@drawable/barley" />
+            <ImageView
+                android:id="@+id/imageView817"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+            <ImageView
+                android:id="@+id/imageView18"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+            <ImageView
+                android:id="@+id/imageView19"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+            <ImageView
+                android:id="@+id/imageView20"
+                android:layout_width="200dp"
+                android:layout_height="121dp"
+                android:src="@drawable/barley" />
+
+
+        </GridLayout>
+
+
+    </ScrollView>
+
+
+
+
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
