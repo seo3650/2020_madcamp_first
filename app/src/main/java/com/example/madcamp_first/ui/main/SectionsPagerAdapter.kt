@@ -1,13 +1,12 @@
 package com.example.madcamp_first.ui.main
 
 import android.content.Context
-import android.content.Intent
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.madcamp_first.AddActivity
 import com.example.madcamp_first.ContactFragment
+import com.example.madcamp_first.GalleryFragment
+
 import com.example.madcamp_first.R
 
 private val TAB_TITLES = arrayOf(
@@ -27,10 +26,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager)
         // Return a PlaceholderFragment (defined as a static inner class below).
         return when(position) {
             0 -> ContactFragment.newInstance()
-//            0 -> {
-//                val intent = Intent(this, AddActivity::class.java)
-//                startActivity(intent)
-//            }
+            1 -> GalleryFragment.newInstance()
             else -> PlaceholderFragment.newInstance(position + 1)
         }
     }

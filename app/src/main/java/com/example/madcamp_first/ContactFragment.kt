@@ -26,10 +26,6 @@ class ContactFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        contactViewModel = ViewModelProviders.of(this).get(ContactViewModel::class.java).apply {
-//
-//        }
     }
 
     override fun onCreateView(
@@ -58,8 +54,6 @@ class ContactFragment : Fragment() {
             adapter.setContacts(contacts!!)
         })
 
-//        val button:  = root.findViewById(R.id.main_button)
-
         root.main_button.setOnClickListener {
             val intent = Intent(context, AddActivity::class.java)
             startActivity(intent)
@@ -79,16 +73,6 @@ class ContactFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private const val ARG_SECTION_NUMBER = "section_number"
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         @JvmStatic
         fun newInstance(): ContactFragment {
             return ContactFragment().apply {

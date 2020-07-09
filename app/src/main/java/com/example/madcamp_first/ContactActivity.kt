@@ -49,19 +49,6 @@ class ContactActivity : AppCompatActivity() {
         }
     }
 
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        val root = inflater.inflate(R.layout.activity_contact, container, false)
-//        val textView: TextView = root.findViewById(R.id.section_label)
-//        val recyclerView: RecyclerView = root.findViewById(R.id.main_recycleview)
-//        contactViewModel.recyclerView.observe(this, Observer<String> {
-//            textView.text = it
-//        })
-//        return root
-//    }
-
     private fun deleteDialog(contact: Contact) {
         val builder = AlertDialog.Builder(this)
         builder.setMessage("Delete selected contact?")
