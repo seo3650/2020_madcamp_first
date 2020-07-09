@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignWithParentIfMissing="false"
+    android:layout_alignParentStart="false"
+    android:layout_alignParentEnd="false"
+    android:layout_centerHorizontal="false"
+    android:layout_centerVertical="false"
+    android:clipToPadding="false"
+    tools:context=".MainActivity"
+    android:layout_alignParentRight="false"
+    android:layout_alignParentLeft="false">
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    </androidx.viewpager.widget.ViewPager>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minHeight="?actionBarSize"
+            android:padding="@dimen/appbar_padding"
+            android:text="@string/app_name"
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary" >
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabItem1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tab1" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabItem2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tab2" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabItem3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tab3" />
+        </com.google.android.material.tabs.TabLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="105dp"
+            android:addStatesFromChildren="false"
+            android:columnCount="2"
+            android:rowCount="11">
+
+            <ImageButton
+                android:id="@+id/imageButton1"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/cloud" />
+
+            <ImageButton
+                android:id="@+id/imageButton3"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/cloud" />
+
+            <ImageButton
+                android:id="@+id/imageButton4"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton5"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton6"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton7"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton8"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton9"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton10"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton11"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton12"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton13"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton14"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton15"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton16"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton17"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton18"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton19"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <ImageButton
+                android:id="@+id/imageButton20"
+                android:layout_width="180dp"
+                android:layout_height="128dp"
+                android:layout_gravity="bottom|start|top|end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/barley" />
+
+            <View
+                android:layout_width="200dp"
+                android:layout_height="100dp" />
+
+            <View
+                android:layout_width="200dp"
+                android:layout_height="100dp" />
+
+        </GridLayout>
+
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/Background"
+        android:layout_width="match_parent"
+        android:layout_height="499dp"
+        android:layout_gravity="bottom|center"
+        android:scaleType="center"
+        android:scaleX="10"
+        android:scaleY="1.2"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/background" />
+
+    <ImageView
+        android:id="@+id/expanded_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
