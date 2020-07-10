@@ -1,14 +1,12 @@
-package com.example.madcamp_first
+package com.example.madcamp_first.Gallery
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
-import com.example.madcamp_first.ui.main.SectionsPagerAdapter
-import com.google.android.material.tabs.TabLayout
+import com.example.madcamp_first.Contact.ContactViewModel
+import com.example.madcamp_first.R
 import kotlinx.android.synthetic.main.activity_gallery.view.*
 
 class GalleryFragment : Fragment() {

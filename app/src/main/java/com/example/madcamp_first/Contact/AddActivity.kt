@@ -1,9 +1,10 @@
-package com.example.madcamp_first
+package com.example.madcamp_first.Contact
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import com.example.madcamp_first.R
 import kotlinx.android.synthetic.main.activity_add.*
 
 class AddActivity : AppCompatActivity() {
@@ -18,7 +19,9 @@ class AddActivity : AppCompatActivity() {
         contactViewModel = ViewModelProviders.of(this).get(ContactViewModel::class.java)
 
         // intent null check & get extras
-        if (intent != null && intent.hasExtra(EXTRA_CONTACT_NAME) && intent.hasExtra(EXTRA_CONTACT_NUMBER)
+        if (intent != null && intent.hasExtra(EXTRA_CONTACT_NAME) && intent.hasExtra(
+                EXTRA_CONTACT_NUMBER
+            )
             && intent.hasExtra(EXTRA_CONTACT_ID)) {
             add_edittext_name.setText(intent.getStringExtra(EXTRA_CONTACT_NAME))
             add_edittext_number.setText(intent.getStringExtra(EXTRA_CONTACT_NUMBER))
@@ -33,7 +36,12 @@ class AddActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please enter name and number.", Toast.LENGTH_SHORT).show()
             } else {
                 val initial = name[0].toUpperCase()
-                val contact = Contact(id, name, number, initial)
+                val contact = Contact(
+                    id,
+                    name,
+                    number,
+                    initial
+                )
                 contactViewModel.insert(contact)
                 finish()
             }

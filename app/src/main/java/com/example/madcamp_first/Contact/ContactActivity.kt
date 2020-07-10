@@ -1,19 +1,14 @@
-package com.example.madcamp_first
+package com.example.madcamp_first.Contact
 
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.madcamp_first.R
 import kotlinx.android.synthetic.main.activity_contact.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 class ContactActivity : AppCompatActivity() {
     private lateinit var contactViewModel: ContactViewModel
@@ -23,15 +18,16 @@ class ContactActivity : AppCompatActivity() {
         setContentView(R.layout.activity_contact)
 
         // Set contactItemClick & contactItemLongClick lambda
-        val adapter = ContactAdapter({ contact ->
-            val intent = Intent(this, AddActivity::class.java)
-            intent.putExtra(AddActivity.EXTRA_CONTACT_NAME, contact.name)
-            intent.putExtra(AddActivity.EXTRA_CONTACT_NUMBER, contact.number)
-            intent.putExtra(AddActivity.EXTRA_CONTACT_ID, contact.id)
-            startActivity(intent)
-        }, { contact ->
-            deleteDialog(contact)
-        })
+        val adapter =
+            ContactAdapter({ contact ->
+                val intent = Intent(this, AddActivity::class.java)
+                intent.putExtra(AddActivity.EXTRA_CONTACT_NAME, contact.name)
+                intent.putExtra(AddActivity.EXTRA_CONTACT_NUMBER, contact.number)
+                intent.putExtra(AddActivity.EXTRA_CONTACT_ID, contact.id)
+                startActivity(intent)
+            }, { contact ->
+                deleteDialog(contact)
+            })
 
         val lm = LinearLayoutManager(this)
         main_recycleview.adapter = adapter

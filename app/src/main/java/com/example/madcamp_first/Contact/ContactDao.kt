@@ -1,7 +1,8 @@
-package com.example.madcamp_first
+package com.example.madcamp_first.Contact
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.madcamp_first.Contact.Contact
 
 @Dao
 interface ContactDao {

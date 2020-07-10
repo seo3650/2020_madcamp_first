@@ -1,11 +1,13 @@
-package com.example.madcamp_first
+package com.example.madcamp_first.Contact
 
 import android.app.Application
 import androidx.lifecycle.*
-import androidx.recyclerview.widget.RecyclerView
+import com.example.madcamp_first.Contact.Contact
+import com.example.madcamp_first.Contact.ContactRepository
 
 class ContactViewModel(application: Application): AndroidViewModel(application) {
-    private val repository = ContactRepository(application)
+    private val repository =
+        ContactRepository(application)
     private val contacts = repository.getAll()
 
     fun getAll(): LiveData<List<Contact>> {

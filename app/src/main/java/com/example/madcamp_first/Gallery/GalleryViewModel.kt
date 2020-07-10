@@ -1,4 +1,4 @@
-package com.example.madcamp_first
+package com.example.madcamp_first.Gallery
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

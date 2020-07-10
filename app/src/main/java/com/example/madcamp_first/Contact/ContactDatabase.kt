@@ -1,4 +1,4 @@
-package com.example.madcamp_first
+package com.example.madcamp_first.Contact
 
 import android.content.Context
 import androidx.room.Database

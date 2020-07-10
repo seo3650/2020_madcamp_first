@@ -1,10 +1,11 @@
-package com.example.madcamp_first
+package com.example.madcamp_first.Contact
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.madcamp_first.R
 
 class ContactAdapter(val contactItemClick: (Contact) -> Unit, val contactItemLongClick: (Contact) -> Unit)
     : RecyclerView.Adapter<ContactAdapter.ViewHolder>() {

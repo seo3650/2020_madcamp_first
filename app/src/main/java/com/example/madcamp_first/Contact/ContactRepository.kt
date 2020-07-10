@@ -1,7 +1,10 @@
-package com.example.madcamp_first
+package com.example.madcamp_first.Contact
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import com.example.madcamp_first.Contact.Contact
+import com.example.madcamp_first.Contact.ContactDao
+import com.example.madcamp_first.Contact.ContactDatabase
 import java.lang.Exception
 
 class ContactRepository(application: Application) {
