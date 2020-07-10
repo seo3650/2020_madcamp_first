@@ -3,9 +3,13 @@ package com.example.madcamp_first.Contact
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +26,9 @@ import kotlinx.android.synthetic.main.activity_contact.view.*
 //import android.R
 
 private const val MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1
+private const val MY_PERMISSIONS_REQUEST_WRITE_CONTACTS = 2
+private const val REQUEST_EDIT = 3
+private const val REQUEST_INSERT = 3
 
 class ContactFragment : Fragment() {
 
@@ -39,11 +46,7 @@ class ContactFragment : Fragment() {
 
         val adapter =
             ContactAdapter({ contact ->
-                val intent = Intent(context, AddActivity::class.java)
-                intent.putExtra(AddActivity.EXTRA_CONTACT_NAME, contact.name)
-                intent.putExtra(AddActivity.EXTRA_CONTACT_NUMBER, contact.number)
-                intent.putExtra(AddActivity.EXTRA_CONTACT_ID, contact.id)
-                startActivity(intent)
+                edit(contact)
             }, { contact ->
                 deleteDialog(contact)
             })
@@ -54,12 +57,21 @@ class ContactFragment : Fragment() {
         root.main_recycleview.setHasFixedSize(true)
 
         if (context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.READ_CONTACTS) }
-            != PackageManager.PERMISSION_GRANTED) {
+        != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 context as Activity,
                 arrayOf(Manifest.permission.READ_CONTACTS),
                 MY_PERMISSIONS_REQUEST_READ_CONTACTS)
-        }
+        } // TODO: Consider denied permission
+
+        if (context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.WRITE_CONTACTS) }
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                context as Activity,
+                arrayOf(Manifest.permission.WRITE_CONTACTS),
+                MY_PERMISSIONS_REQUEST_WRITE_CONTACTS)
+        } // TODO: Consider denied permission
+
 
         contactViewModel = ViewModelProviders.of(this).get(ContactViewModel::class.java)
         context?.let {
@@ -71,8 +83,7 @@ class ContactFragment : Fragment() {
         val addButton = root.findViewById<Button>(R.id.main_button)
 
         addButton.setOnClickListener {
-            val intent = Intent(context, AddActivity::class.java)
-            startActivity(intent)
+            insert()
         }
 
         return root
@@ -83,9 +94,55 @@ class ContactFragment : Fragment() {
         builder.setMessage("Delete selected contact?")
             .setNegativeButton("NO") { _, _ -> }
             .setPositiveButton("YES") { _, _ ->
-                contactViewModel.delete(contact)
+                context?.let { contactViewModel.delete(it, contact) }
             }
         builder.show()
+    }
+
+    private fun insert() {
+        val intent = Intent(ContactsContract.Intents.Insert.ACTION).apply {
+            type = ContactsContract.RawContacts.CONTENT_TYPE
+        }
+        startActivityForResult(intent, REQUEST_INSERT)
+    }
+
+    private fun edit(contact: Contact) {
+        val id: String = contact.id.toString()
+        val section = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?"
+        val sectionArgs = arrayOf(id)
+        val c: Cursor = context?.contentResolver?.query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            null, section, sectionArgs,
+            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " asc")
+            ?: return
+
+        if (c.moveToFirst()) {
+            try {
+                do {
+                    val lookupKey = c.getString(c.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY))
+                    val uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey)
+
+                    val editIntent: Intent = Intent(Intent.ACTION_EDIT).apply {
+                        setDataAndType(uri, ContactsContract.Contacts.CONTENT_ITEM_TYPE)
+                    }
+                    editIntent.putExtra("finishActivityOnSaveCompleted", true)
+                    editIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                    startActivityForResult(editIntent, REQUEST_EDIT)
+
+                } while (c.moveToNext())
+            } catch (e: Exception) {
+                e.stackTrace
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_EDIT) {
+            contactViewModel.getAll(context!!)
+        } else if (requestCode == REQUEST_INSERT) {
+            contactViewModel.getAll(context!!)
+        }
     }
 
     companion object {

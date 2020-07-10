@@ -1,22 +1,24 @@
 package com.example.madcamp_first.Contact
 
 import android.app.Application
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.database.Cursor
+import android.net.Uri
 import android.provider.ContactsContract
+import android.provider.Telephony.Mms.Addr.CONTACT_ID
 import android.widget.Button
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.*
 
 class ContactViewModel(application: Application): AndroidViewModel(application) {
-    private val repository = ContactRepository(application)
-    private val contacts = repository.getAll()
-
+    val contacts: MutableLiveData<List<Contact>> by lazy {
+        MutableLiveData<List<Contact>>()
+    }
     fun getAll(context: Context): LiveData<List<Contact>> {
-//        return this.contacts
-        val contacts: MutableLiveData<List<Contact>> by lazy {
-            MutableLiveData<List<Contact>>()
-        }
-        var dataList = mutableListOf<Contact>()//: mutableList<Contact>
+        var dataList = mutableListOf<Contact>()
 
         val c: Cursor = context.contentResolver.query(
             ContactsContract.Contacts.CONTENT_URI,
@@ -40,7 +42,7 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
                     val number: String = phoneCursor.getString(phoneCursor.getColumnIndex(
                         ContactsContract.CommonDataKinds.Phone.NUMBER))
                     val initial = name[0].toUpperCase()
-                    val contact = Contact(0, name, number, initial) // todo: consider id
+                    val contact = Contact(id.toLong(), name, number, initial) // todo: consider id
                     dataList.add(contact)
                 }
                 phoneCursor.close()
@@ -53,12 +55,28 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
         return contacts
     }
 
-    fun insert(contact: Contact) {
-        repository.insert(contact)
-    }
+    fun delete(context: Context, contact: Contact) {
+        val id: String = contact.id.toString()
+        val section = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?"
+        val sectionArgs = arrayOf(id)
+        val c: Cursor = context.contentResolver.query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            null, section, sectionArgs,
+            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " asc")
+            ?: return
 
-    fun delete(contact: Contact) {
-        repository.delete(contact)
+        if (c.moveToFirst()) {
+            try {
+                do {
+                    val lookupKey = c.getString(c.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY))
+                    val uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey)
+                    context.contentResolver.delete(uri, null, null)
+                } while (c.moveToNext())
+            } catch (e: Exception) {
+                e.stackTrace
+            }
+        }
+
+        contacts.value = (contacts.value as MutableList<Contact>).minus(contact)//.remove(contact)
     }
-    val button: LiveData<Button>? = null
 }
