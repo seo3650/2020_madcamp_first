@@ -1,12 +1,17 @@
 package com.example.madcamp_first.Contact
 
+import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,6 +20,8 @@ import com.example.madcamp_first.R
 import kotlinx.android.synthetic.main.activity_contact.view.*
 
 //import android.R
+
+private const val MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1
 
 class ContactFragment : Fragment() {
 
@@ -46,15 +53,22 @@ class ContactFragment : Fragment() {
         root.main_recycleview.layoutManager = lm
         root.main_recycleview.setHasFixedSize(true)
 
+        if (context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.READ_CONTACTS) }
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                context as Activity,
+                arrayOf(Manifest.permission.READ_CONTACTS),
+                MY_PERMISSIONS_REQUEST_READ_CONTACTS)
+        }
+
         contactViewModel = ViewModelProviders.of(this).get(ContactViewModel::class.java)
-        contactViewModel.getAll().observe(this, Observer<List<Contact>> { contacts ->
-            adapter.setContacts(contacts!!)
-        })
+        context?.let {
+            contactViewModel.getAll(it).observe(this, Observer<List<Contact>> { contacts ->
+                adapter.setContacts(contacts!!)
+            })
+        }
 
         val addButton = root.findViewById<Button>(R.id.main_button)
-//        contactViewModel.button?.observe(this, Observer<Button> {
-//            addButton. = it
-//        })
 
         addButton.setOnClickListener {
             val intent = Intent(context, AddActivity::class.java)
