@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/barley" />
+                    app:srcCompat="@drawable/cloud" />
 
 
             </LinearLayout>
@@ -268,44 +268,44 @@
         </LinearLayout>
     </ScrollView>
 
-    <HorizontalScrollView
-        android:id="@+id/scrollView2"
+    <ImageButton
+        android:id="@+id/Bigscreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView1"
+        app:layout_constraintEnd_toEndOf="@+id/scrollView1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/barley" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|start"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
+    <Button
+        android:id="@+id/goNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="→"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/imageButton21"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/barley" />
+    <Button
+        android:id="@+id/goPrev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="←"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/imageButton22"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/barley" />
-
-            <ImageButton
-                android:id="@+id/imageButton23"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/cloud" />
-
-            <ImageButton
-                android:id="@+id/imageButton24"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/barley" />
-        </LinearLayout>
-    </HorizontalScrollView>
+    <Button
+        android:id="@+id/goOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="↓"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/goNext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
