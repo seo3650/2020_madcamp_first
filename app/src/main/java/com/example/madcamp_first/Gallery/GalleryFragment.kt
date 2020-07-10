@@ -23,205 +23,126 @@ class GalleryFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.activity_gallery, container, false)
 
-        root.imageButton1.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.barley)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
+        fun backtothumbnail() { // Listen for going out to the thumbnails screen
+            root.imageButton21.setOnClickListener {
+                root.scrollView1.visibility = View.VISIBLE
+                root.scrollView2.visibility = View.INVISIBLE
+            }
+            root.imageButton22.setOnClickListener {
+                root.scrollView1.visibility = View.VISIBLE
+                root.scrollView2.visibility = View.INVISIBLE
+            }
+            root.imageButton23.setOnClickListener {
+                root.scrollView1.visibility = View.VISIBLE
+                root.scrollView2.visibility = View.INVISIBLE
+            }
+            root.imageButton24.setOnClickListener {
+                root.scrollView1.visibility = View.VISIBLE
+                root.scrollView2.visibility = View.INVISIBLE
             }
         }
-        root.imageButton2.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
 
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+
+        root.imageButton1.setOnClickListener {
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
+        }
+
+        root.imageButton2.setOnClickListener {
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton3.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton4.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton5.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton6.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton7.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton8.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton9.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton10.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton11.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton12.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton13.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton14.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton15.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton16.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton17.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton18.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton19.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
         root.imageButton20.setOnClickListener {
-            root.expanded_image.setImageResource(R.drawable.cloud)
-            root.expanded_image.visibility = View.VISIBLE
-            root.Background.visibility = View.VISIBLE
-
-            root.expanded_image.setOnClickListener{
-                root.expanded_image.visibility = View.INVISIBLE
-                root.Background.visibility = View.INVISIBLE
-            }
+            root.scrollView1.visibility = View.INVISIBLE
+            root.scrollView2.visibility = View.VISIBLE
+            backtothumbnail()
         }
 
         return root

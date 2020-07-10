@@ -10,8 +10,7 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -252,60 +251,51 @@
                     app:srcCompat="@drawable/barley" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="2" />
-            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
 
-    <HorizontalScrollView
+    <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible">
+        app:layout_constraintBottom_toTopOf="@+id/scrollView1"
+        app:layout_constraintEnd_toStartOf="@+id/scrollView1"
+        app:layout_constraintStart_toEndOf="@+id/scrollView1"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView1">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|start"
-            android:baselineAligned="false"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/imageButton21"
+            <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="visible"
                 app:srcCompat="@drawable/barley" />
 
-            <ImageButton
-                android:id="@+id/imageButton22"
+            <ImageView
+                android:id="@+id/imageView2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:srcCompat="@drawable/barley" />
 
-            <ImageButton
-                android:id="@+id/imageButton23"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 app:srcCompat="@drawable/cloud" />
 
-            <ImageButton
-                android:id="@+id/imageButton24"
+            <ImageView
+                android:id="@+id/imageView4"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:srcCompat="@drawable/barley" />
         </LinearLayout>
-    </HorizontalScrollView>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
