@@ -22,13 +22,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="1dp"
+            android:layout_marginLeft="16dp"
             tools:text="H"
-
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="16dp"/>
-
-        <!--            android:grabity="center"-->
-        <!--            app:layout_constraintBottom_toBottonOf="parent"-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,7 +36,7 @@
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/item_tv_initial"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="1dp"
+            android:layout_marginLeft="16dp"
             tools:text="Hello Someone"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toTopOf="parent"

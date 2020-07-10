@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -50,7 +51,12 @@ class ContactFragment : Fragment() {
             adapter.setContacts(contacts!!)
         })
 
-        root.main_button.setOnClickListener {
+        val addButton = root.findViewById<Button>(R.id.main_button)
+//        contactViewModel.button?.observe(this, Observer<Button> {
+//            addButton. = it
+//        })
+
+        addButton.setOnClickListener {
             val intent = Intent(context, AddActivity::class.java)
             startActivity(intent)
         }

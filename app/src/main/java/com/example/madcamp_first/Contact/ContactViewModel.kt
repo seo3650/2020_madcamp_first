@@ -1,13 +1,13 @@
 package com.example.madcamp_first.Contact
 
 import android.app.Application
+import android.widget.Button
 import androidx.lifecycle.*
 import com.example.madcamp_first.Contact.Contact
 import com.example.madcamp_first.Contact.ContactRepository
 
 class ContactViewModel(application: Application): AndroidViewModel(application) {
-    private val repository =
-        ContactRepository(application)
+    private val repository = ContactRepository(application)
     private val contacts = repository.getAll()
 
     fun getAll(): LiveData<List<Contact>> {
@@ -21,4 +21,5 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
     fun delete(contact: Contact) {
         repository.delete(contact)
     }
+    val button: LiveData<Button>? = null
 }
