@@ -24,13 +24,15 @@ class GalleryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
             if (requestCode == GALLERY_CODE) {
                 if (data != null) {
-                    sendPicture(data.data, ) }
+                    data.data?.let { sendPicture(it) }
+                }
             }
             if (requestCode == CAMERA_CODE) {
                 if (data != null) {
@@ -51,10 +53,10 @@ class GalleryFragment : Fragment() {
         return cursor.getString(columnIndex)
     }
 
-    fun sendPicture(imgUri:Uri, imageView: ImageView) {
+    fun sendPicture(imgUri:Uri) {
         var imagePath = getRealPathFromURI(imgUri); // path 경로
         val bitmap = BitmapFactory.decodeFile(imagePath);//경로를 통해 비트맵으로 전환
-        imageView.setImageBitmap(bitmap);//이미지 뷰에 비트맵 넣기
+        ???.setImageBitmap(bitmap);//이미지 뷰에 비트맵 넣기
     }
 
     override fun onCreateView(
@@ -106,13 +108,10 @@ class GalleryFragment : Fragment() {
         }
 
 
-
-
         var intent = Intent(Intent.ACTION_PICK)
         intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         intent.type = "image/*"
         startActivityForResult(intent, GALLERY_CODE)
-        onActivityResult(GALLERY_CODE, RESULT_OK, intent)
 
 
             root.imageButton1.setOnClickListener {
