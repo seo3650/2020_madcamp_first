@@ -1,9 +1,18 @@
 package com.example.madcamp_first.Gallery
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.example.madcamp_first.Contact.ContactViewModel
 import com.example.madcamp_first.R
@@ -16,10 +25,42 @@ class GalleryFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
+    /*
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            if (requestCode == GALLERY_CODE) {
+                if (data != null) {
+                    data.data?.let { sendPicture(it) }
+                }
+            }
+            if (requestCode == CAMERA_CODE) {
+                if (data != null) {
+                    data.data?.let { sendPicture(it) }
+                }
+            }
+        }
+    }
 
+    val CAMERA_CODE = 1111;
+    val GALLERY_CODE =1112;
+    fun getRealPathFromURI(uri: Uri): String? {
+        var columnIndex = 0
+        var proj = arrayOf(MediaStore.Images.Media.DATA)
+        var cursor: Cursor = uri?.let { context?.contentResolver?.query(it, proj, null, null, null) }
+            ?:return null
+        if (cursor.moveToFirst()) { columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA) }
+        return cursor.getString(columnIndex)
+    }
+
+    fun sendPicture(imgUri:Uri) {
+        var imagePath = getRealPathFromURI(imgUri); // path 경로
+        val bitmap = BitmapFactory.decodeFile(imagePath);//경로를 통해 비트맵으로 전환
+        //Todo.setImageBitmap(bitmap);//이미지 뷰에 비트맵 넣기
+    }
+    */
     var screened_big_image = 1
     var new_photo_pointer = 10
-
 
     private fun select_big_image(view: View){
         if (screened_big_image == 1) {
@@ -82,36 +123,34 @@ class GalleryFragment : Fragment() {
         if (screened_big_image == 20) {
             view.Bigscreen.setImageDrawable(view.imageButton20.drawable)
         }
-
-
-
     }
-    private fun go_to_bigscreen(root:View) {
-        root.scrollView1.visibility = View.INVISIBLE
-        root.Bigscreen.visibility = View.VISIBLE
-        root.goOut.visibility = View.VISIBLE
-        root.goNext.visibility = View.VISIBLE
-        root.goPrev.visibility = View.VISIBLE
 
-        select_big_image(root)
-        root.goNext.setOnClickListener {
+    private fun go_to_bigscreen(view:View) {
+        view.scrollView1.visibility = View.INVISIBLE
+        view.Bigscreen.visibility = View.VISIBLE
+        view.goOut.visibility = View.VISIBLE
+        view.goNext.visibility = View.VISIBLE
+        view.goPrev.visibility = View.VISIBLE
+
+        select_big_image(view)
+        view.goNext.setOnClickListener {
             if (screened_big_image < new_photo_pointer){ // 마지막 사진에서는 Next가 작동하지 않음
                 screened_big_image += 1
-                select_big_image(root)
+                select_big_image(view)
             }
         }
-        root.goPrev.setOnClickListener {
+        view.goPrev.setOnClickListener {
             if (screened_big_image > 1){ // 처음 사진에서는 Prev가 작동하지 않음
                 screened_big_image -=1
-                select_big_image(root)
+                select_big_image(view)
             }
         }
-        root.goOut.setOnClickListener { //go back to thumbnail
-            root.scrollView1.visibility = View.VISIBLE
-            root.Bigscreen.visibility = View.INVISIBLE
-            root.goOut.visibility = View.INVISIBLE
-            root.goNext.visibility = View.INVISIBLE
-            root.goPrev.visibility = View.INVISIBLE
+        view.goOut.setOnClickListener { //go back to thumbnail
+            view.scrollView1.visibility = View.VISIBLE
+            view.Bigscreen.visibility = View.INVISIBLE
+            view.goOut.visibility = View.INVISIBLE
+            view.goNext.visibility = View.INVISIBLE
+            view.goPrev.visibility = View.INVISIBLE
         }
     }
 
@@ -120,14 +159,19 @@ class GalleryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.activity_gallery, container, false)
-
+        /*
+        var intent = Intent(Intent.ACTION_PICK)
+        intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        intent.type = "image/*"
+        startActivityForResult(intent, GALLERY_CODE)
+        */
+        */
 
         if (new_photo_pointer >= 1) {
             root.imageButton1.setOnClickListener {
                 screened_big_image = 1
                 go_to_bigscreen(root) }
         }
-
         if (new_photo_pointer >= 2) {
             root.imageButton2.setOnClickListener {
                 screened_big_image = 2
@@ -223,12 +267,6 @@ class GalleryFragment : Fragment() {
                 screened_big_image = 20
                 go_to_bigscreen(root) }
         }
-
-
-
-
-
-
 
         return root
     }
