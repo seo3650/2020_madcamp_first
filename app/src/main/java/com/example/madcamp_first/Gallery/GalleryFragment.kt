@@ -14,6 +14,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -183,11 +184,6 @@ class GalleryFragment : Fragment() {
             imageView.setImageBitmap(it)
         })
 
-        var intent = Intent(Intent.ACTION_PICK)
-        intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        intent.type = "image/*"
-        startActivityForResult(intent, GALLERY_CODE)
-
         if (new_photo_pointer >= 1) {
             root.imageButton1.setOnClickListener {
                 screened_big_image = 1
@@ -289,7 +285,21 @@ class GalleryFragment : Fragment() {
                 go_to_bigscreen(root) }
         }
 
+        /* Add new image */
+        val addButton = root.findViewById<Button>(R.id.gallery_add_button)
+
+        addButton.setOnClickListener {
+            addImage()
+        }
+
         return root
+    }
+
+    fun addImage() {
+        var intent = Intent(Intent.ACTION_PICK)
+        intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        intent.type = "image/*"
+        startActivityForResult(intent, GALLERY_CODE)
     }
 
 
