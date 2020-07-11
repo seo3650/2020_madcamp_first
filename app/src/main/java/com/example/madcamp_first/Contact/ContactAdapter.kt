@@ -11,7 +11,7 @@ class ContactAdapter(val contactItemClick: (Contact) -> Unit, val contactItemLon
     : RecyclerView.Adapter<ContactAdapter.ViewHolder>() {
     private var contacts: List<Contact> = listOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, screened_big_image: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_contact, parent, false)
         return ViewHolder(view)
     }

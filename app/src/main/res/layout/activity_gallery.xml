@@ -148,16 +148,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/cloud" />
+                    android:adjustViewBounds="true" />
 
                 <ImageButton
                     android:id="@+id/imageButton12"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/barley" />
+                    android:adjustViewBounds="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -171,16 +169,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/cloud" />
+                    android:adjustViewBounds="true" />
 
                 <ImageButton
                     android:id="@+id/imageButton14"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/barley" />
+                    android:adjustViewBounds="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -194,16 +190,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/cloud" />
+                    android:adjustViewBounds="true" />
 
                 <ImageButton
                     android:id="@+id/imageButton16"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/barley" />
+                    android:adjustViewBounds="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -217,16 +211,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/cloud" />
+                    android:adjustViewBounds="true" />
 
                 <ImageButton
                     android:id="@+id/imageButton18"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/barley" />
+                    android:adjustViewBounds="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -240,16 +232,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/cloud" />
+                    android:adjustViewBounds="true" />
 
                 <ImageButton
                     android:id="@+id/imageButton20"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/barley" />
+                    android:adjustViewBounds="true" />
             </LinearLayout>
 
             <LinearLayout
