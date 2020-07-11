@@ -1,31 +1,38 @@
 package com.example.madcamp_first.Gallery
 
+import android.Manifest
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.example.madcamp_first.Contact.ContactViewModel
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.example.madcamp_first.R
 import kotlinx.android.synthetic.main.activity_gallery.view.*
 
+private const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
+
 class GalleryFragment : Fragment() {
 
-    private lateinit var contactViewModel: ContactViewModel
+    private lateinit var galleryViewModel: GalleryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-    /*
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
@@ -44,6 +51,7 @@ class GalleryFragment : Fragment() {
 
     val CAMERA_CODE = 1111;
     val GALLERY_CODE =1112;
+
     fun getRealPathFromURI(uri: Uri): String? {
         var columnIndex = 0
         var proj = arrayOf(MediaStore.Images.Media.DATA)
@@ -54,11 +62,19 @@ class GalleryFragment : Fragment() {
     }
 
     fun sendPicture(imgUri:Uri) {
-        var imagePath = getRealPathFromURI(imgUri); // path 경로
-        val bitmap = BitmapFactory.decodeFile(imagePath);//경로를 통해 비트맵으로 전환
-        //Todo.setImageBitmap(bitmap);//이미지 뷰에 비트맵 넣기
+        if (context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.READ_EXTERNAL_STORAGE) }
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                context as Activity,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
+            )
+        } // TODO: Consider denied permission
+        var imagePath = getRealPathFromURI(imgUri) // path 경로
+        val bitmap = BitmapFactory.decodeFile(imagePath)//경로를 통해 비트맵으로 전환
+        galleryViewModel.updateImage(bitmap)
     }
-    */
+
     var screened_big_image = 1
     var new_photo_pointer = 10
 
@@ -159,13 +175,18 @@ class GalleryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.activity_gallery, container, false)
-        /*
+
+        /* Observe user's image */
+        var imageView: ImageView = root.findViewById(R.id.imageView)
+        galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel::class.java)
+        galleryViewModel.imageView.observe(this, Observer<Bitmap> {
+            imageView.setImageBitmap(it)
+        })
+
         var intent = Intent(Intent.ACTION_PICK)
         intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         intent.type = "image/*"
         startActivityForResult(intent, GALLERY_CODE)
-        */
-        */
 
         if (new_photo_pointer >= 1) {
             root.imageButton1.setOnClickListener {
@@ -270,6 +291,7 @@ class GalleryFragment : Fragment() {
 
         return root
     }
+
 
     companion object {
         @JvmStatic
