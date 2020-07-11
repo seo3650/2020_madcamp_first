@@ -13,17 +13,29 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.OnMapReadyCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.madcamp_first.Contact.Contact
+import com.example.madcamp_first.Contact.ContactAdapter
+import com.example.madcamp_first.Contact.ContactViewModel
 import com.google.android.gms.maps.CameraUpdateFactory.newLatLng
+import kotlinx.android.synthetic.main.activity_contact.view.*
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mapFragment: MapFragment
+    private lateinit var contactViewModel: ContactViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
     private lateinit var mMap: GoogleMap
+
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
@@ -41,10 +53,30 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         mapFragment.getMapAsync(this)
 
+        /* Get contacts */
+        val adapter =
+            ContactAdapter({ contact ->
+            }, { contact ->
+            })
+        val lm = LinearLayoutManager(context)
+        root.main_recycleview.adapter = adapter
+        root.main_recycleview.layoutManager = lm
+        root.main_recycleview.setHasFixedSize(true)
+        val application = activity?.application?:return null
+        contactViewModel = ViewModelProviders.of(this).get(ContactViewModel::class.java)
+//        contactViewModel = ViewModelProvider(
+//            activity as FragmentActivity,
+//            ContactViewModel.Factory(application))[ContactViewModel::class.java]
+        context?.let {
+            contactViewModel.getAll(it).observe(this, Observer<List<Contact>> { contacts ->
+                adapter.setContacts(contacts!!)
+            })
+        }
+
         return root
     }
 
-
+//    fun setContactView()
 
     companion object {
         @JvmStatic
