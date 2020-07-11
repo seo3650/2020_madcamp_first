@@ -14,6 +14,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -73,6 +74,7 @@ class GalleryFragment : Fragment() {
         var imagePath = getRealPathFromURI(imgUri) // path 경로
         val bitmap = BitmapFactory.decodeFile(imagePath)//경로를 통해 비트맵으로 전환
         galleryViewModel.updateImage(bitmap)
+        new_photo_pointer += 1
     }
 
     var screened_big_image = 1
@@ -177,7 +179,7 @@ class GalleryFragment : Fragment() {
         val root = inflater.inflate(R.layout.activity_gallery, container, false)
 
         /* Observe user's image */
-        var imageView: ImageView = root.findViewById(R.id.imageView)
+        var imageView: ImageButton = root.findViewById(R.id.imageButton11)
         galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel::class.java)
         galleryViewModel.imageView.observe(this, Observer<Bitmap> {
             imageView.setImageBitmap(it)
@@ -238,8 +240,9 @@ class GalleryFragment : Fragment() {
                 screened_big_image = 10
                 go_to_bigscreen(root) }
         }
-        if (new_photo_pointer >= 11) {
+
             root.imageButton11.setOnClickListener {
+                if (new_photo_pointer >= 11) {
                 screened_big_image = 11
                 go_to_bigscreen(root) }
         }

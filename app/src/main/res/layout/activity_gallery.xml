@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
-                    android:scaleType="center"
+                    android:scaleType="centerInside"
                     app:srcCompat="@drawable/barley" />
 
                 <ImageButton
@@ -43,6 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
                     app:srcCompat="@drawable/cloud" />
 
 
@@ -60,6 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
                     app:srcCompat="@drawable/cloud" />
 
                 <ImageButton
@@ -68,6 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
                     app:srcCompat="@drawable/barley" />
             </LinearLayout>
 
@@ -83,6 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
                     app:srcCompat="@drawable/cloud" />
 
                 <ImageButton
@@ -91,6 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
                     app:srcCompat="@drawable/barley" />
             </LinearLayout>
 
@@ -107,6 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
                     app:srcCompat="@drawable/cloud" />
 
                 <ImageButton
@@ -115,6 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
                     app:srcCompat="@drawable/barley" />
             </LinearLayout>
 
@@ -130,6 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
                     app:srcCompat="@drawable/cloud" />
 
                 <ImageButton
@@ -138,6 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
                     app:srcCompat="@drawable/barley" />
             </LinearLayout>
 
@@ -152,14 +161,16 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true" />
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside" />
 
                 <ImageButton
                     android:id="@+id/imageButton12"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true" />
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside" />
             </LinearLayout>
 
             <LinearLayout
@@ -173,14 +184,16 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true" />
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside" />
 
                 <ImageButton
                     android:id="@+id/imageButton14"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true" />
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside" />
             </LinearLayout>
 
             <LinearLayout
@@ -194,14 +207,16 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true" />
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside" />
 
                 <ImageButton
                     android:id="@+id/imageButton16"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true" />
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside" />
             </LinearLayout>
 
             <LinearLayout
@@ -215,14 +230,16 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true" />
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside" />
 
                 <ImageButton
                     android:id="@+id/imageButton18"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true" />
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside" />
             </LinearLayout>
 
             <LinearLayout
@@ -236,14 +253,16 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true" />
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside" />
 
                 <ImageButton
                     android:id="@+id/imageButton20"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true" />
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside" />
             </LinearLayout>
 
             <LinearLayout
@@ -266,6 +285,7 @@
         android:id="@+id/Bigscreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scaleType="centerInside"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/scrollView1"
         app:layout_constraintEnd_toEndOf="@+id/scrollView1"
@@ -300,25 +320,6 @@
         app:layout_constraintEnd_toEndOf="@+id/goNext"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/scrollView1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/cloud" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
