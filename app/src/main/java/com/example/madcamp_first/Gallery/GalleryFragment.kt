@@ -8,7 +8,9 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.graphics.drawable.Drawable
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -24,6 +26,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.madcamp_first.R
 import kotlinx.android.synthetic.main.activity_gallery.view.*
+
 
 private const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 
@@ -47,8 +50,8 @@ class GalleryFragment : Fragment() {
         }
     }
 
-    private val CAMERA_CODE = 1111;
-    private val GALLERY_CODE =1112;
+    private val CAMERA_CODE = 1111
+    private val GALLERY_CODE =1112
 
     private fun getRealPathFromURI(uri: Uri): String? {
         var columnIndex = 0
@@ -69,7 +72,7 @@ class GalleryFragment : Fragment() {
             )
         }
         val imagePath = getRealPathFromURI(imgUri) // path 경로
-        val bitmap = BitmapFactory.decodeFile(imagePath)//경로를 통해 비트맵으로 전환
+        val bitmap = getResizePicture(imagePath)
         galleryViewModel.updateImage(bitmap)
         new_photo_pointer += 1
     }
@@ -137,8 +140,58 @@ class GalleryFragment : Fragment() {
         return
     }
 
+    private fun getResizePicture(imagePath: String?): Bitmap { //사진 용량을 줄여주는 함수
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(imagePath, options)
+        val resize = 1000
+        var width = options.outWidth
+        var height = options.outHeight
+        var sampleSize = 1
+        while (true) {
+            if (width / 2 < resize || height / 2 < resize)
+                break
+            width /= 2
+            height /= 2
+            sampleSize *= 2
+        }
+        options.inSampleSize = sampleSize
+        options.inJustDecodeBounds = false
 
+        val resizeBitmap = BitmapFactory.decodeFile(imagePath, options)
+        val exit = imagePath?.let { ExifInterface(it) }
+        var exifDegree = 0F
+        exit?.let {
+            val exifOrientation = it.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+            exifDegree = exifOreintationToDegrees(exifOrientation)
+        }
+        return roteateBitmap(resizeBitmap, exifDegree)
 
+    }
+
+    private fun exifOreintationToDegrees(exifOrientation:Int):Float { // 사진이 얼마나 돌아가 있는지 알려주는 함수
+        return when (exifOrientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> {
+                90F
+            }
+            ExifInterface.ORIENTATION_ROTATE_180 -> {
+                180F
+            }
+            ExifInterface.ORIENTATION_ROTATE_270 -> {
+                270F
+            }
+            else -> 0F
+        }
+    }
+
+    private fun roteateBitmap(src:Bitmap, degree:Float): Bitmap { // 똑바르게 서도록 회전시키는 함수
+        // Matrix 객체 생성
+        val matrix = Matrix()
+        // 회전 각도 셋팅
+        matrix.postRotate(degree)
+        // 이미지와 Matrix 를 셋팅해서 Bitmap 객체 생성
+        return Bitmap.createBitmap(src, 0, 0, src.width, src.height, matrix, true)
+        }
 
     private fun delete_image(view: View) {
 
