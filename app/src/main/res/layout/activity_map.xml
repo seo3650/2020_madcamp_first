@@ -11,7 +11,7 @@
         android:id="@+id/mapview"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="430dp"
         app:layout_constraintBottom_toTopOf="@+id/main_recycleview"
         tools:layout="@layout/abc_search_view" />
 

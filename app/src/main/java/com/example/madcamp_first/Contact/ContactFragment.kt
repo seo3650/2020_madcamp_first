@@ -45,7 +45,7 @@ class ContactFragment : Fragment() {
         val root = inflater.inflate(R.layout.activity_contact, container, false)
 
         val adapter =
-            ContactAdapter({ contact ->
+            ContactAdapter({ contact, _, _ ->
                 edit(contact)
             }, { contact ->
                 deleteDialog(contact)

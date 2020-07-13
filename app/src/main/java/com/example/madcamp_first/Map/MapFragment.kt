@@ -1,17 +1,14 @@
 package com.example.madcamp_first.Map
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.madcamp_first.R
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.OnMapReadyCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
@@ -22,13 +19,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.madcamp_first.Contact.Contact
 import com.example.madcamp_first.Contact.ContactAdapter
 import com.example.madcamp_first.Contact.ContactViewModel
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.CameraUpdateFactory.newLatLng
 import kotlinx.android.synthetic.main.activity_contact.view.*
 
-class MapFragment : Fragment(), OnMapReadyCallback {
+class MapFragment : Fragment(),
+    OnMapReadyCallback {
 
     private lateinit var mapFragment: MapFragment
     private lateinit var contactViewModel: ContactViewModel
+    private lateinit var selectedContact: Contact
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,9 +39,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        val marker = LatLng(35.241615, 128.695587)
-        mMap.addMarker(MarkerOptions().position(marker).title("Marker LAB"))
-        mMap.moveCamera(newLatLng(marker))
+        mMap.setOnMapLongClickListener  { onMapLongClick(it) }
+    }
+
+    private fun onMapLongClick(point: LatLng) {
+        val name = selectedContact.name
+        mMap.addMarker(MarkerOptions().position(point).title(name))
+        mMap.moveCamera(newLatLng(point))
+        val zoom: CameraUpdate = CameraUpdateFactory.zoomTo(15F)
+        mMap.animateCamera(zoom)
     }
 
     override fun onCreateView(
@@ -55,7 +61,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         /* Get contacts */
         val adapter =
-            ContactAdapter({ contact ->
+            ContactAdapter({ contact, viewList, view ->
+                for (view in viewList) {
+                    view.setBackgroundColor(Color.WHITE)
+                }
+                context?.resources?.getColor(R.color.colorSelected)?.let { view.setBackgroundColor(it) }
+                selectedContact = contact
+
             }, { contact ->
             })
         val lm = LinearLayoutManager(context)
