@@ -36,11 +36,13 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.activity_contact.view.*
+import java.lang.Double.parseDouble
 
 class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private lateinit var contactViewModel: ContactViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var selectedContact: Contact? = null
 
     private fun placeMarkerOnMap(location: LatLng) {
         val markerOptions = MarkerOptions().position(location)
@@ -56,7 +58,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
             BitmapDescriptorFactory.fromBitmap(bitmap)
         }
     }
-    private lateinit var selectedContact: Contact
 
     private fun setUpMap() {
         /*permission*/
@@ -100,11 +101,15 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     }
 
     private fun onMapLongClick(point: LatLng) {
-        val name = selectedContact.name
+        selectedContact?:return
+        val application = activity?.application?: return
+        val repository = PinRepository(application)
+        val name = selectedContact!!.name
         mMap.addMarker(MarkerOptions().position(point).title(name))
-        mMap.moveCamera(newLatLng(point))
-        val zoom: CameraUpdate = CameraUpdateFactory.zoomTo(15F)
-        mMap.animateCamera(zoom)
+        mMap.animateCamera(newLatLng(point))
+        val position = point.latitude.toString() + "," + point.longitude.toString()
+
+        repository.insert(Pin(position, name))
     }
 
     override fun onCreateView(
@@ -128,19 +133,41 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                 context?.resources?.getColor(R.color.colorSelected)?.let { view.setBackgroundColor(it) }
                 selectedContact = contact
 
-            }, { contact ->
+            }, { _ ->
             })
         val lm = LinearLayoutManager(context)
         root.main_recycleview.adapter = adapter
         root.main_recycleview.layoutManager = lm
         root.main_recycleview.setHasFixedSize(true)
+
         contactViewModel = ViewModelProviders.of(this).get(ContactViewModel::class.java)
         context?.let {
             contactViewModel.getAll(it).observe(this, Observer<List<Contact>> { contacts ->
                 adapter.setContacts(contacts!!)
             })
         }
+
+        val application = activity?.application?: return root
+        val repository = PinRepository(application)
+        val pins = repository.getAll()
+        pins.observe(this, Observer<List<Pin>> {
+            setInitPin(it)
+        })
+
         return root
+    }
+
+    private fun setInitPin(pins: List<Pin>) {
+        if (pins == null) {
+            return
+        }
+        for (pin in pins!!) {
+            val positionStr = pin.position.split(",")
+            val latitude = parseDouble(positionStr[0])
+            val longitude = parseDouble(positionStr[1])
+            val position = LatLng(latitude, longitude)
+            mMap.addMarker(pin.position?.let { MarkerOptions().position(position).title(pin.name) })
+        }
     }
 
     companion object {
