@@ -7,9 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.madcamp_first.R
 
-class ContactAdapter(val contactItemClick: (Contact) -> Unit, val contactItemLongClick: (Contact) -> Unit)
+class ContactAdapter(val contactItemClick: (Contact, ArrayList<View>, View) -> Unit, val contactItemLongClick: (Contact) -> Unit)
     : RecyclerView.Adapter<ContactAdapter.ViewHolder>() {
     private var contacts: List<Contact> = listOf()
+    var viewList = ArrayList<View>()
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_contact, parent, false)
@@ -21,6 +22,9 @@ class ContactAdapter(val contactItemClick: (Contact) -> Unit, val contactItemLon
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+        if (!viewList.contains(viewHolder.itemView)) {
+            viewList.add(viewHolder.itemView)
+        }
         viewHolder.bind(contacts[position])
     }
 
@@ -35,7 +39,7 @@ class ContactAdapter(val contactItemClick: (Contact) -> Unit, val contactItemLon
             initialTv.text = contact.initial.toString()
 
             itemView.setOnClickListener {
-                contactItemClick(contact)
+                contactItemClick(contact, viewList, itemView)
             }
 
             itemView.setOnLongClickListener {
