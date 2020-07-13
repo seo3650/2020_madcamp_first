@@ -88,7 +88,7 @@ class GalleryFragment : Fragment() {
             val imgViewID = "imageButton$i"
             val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
             val imgview : ImageButton = view.findViewById(resID)
-            if (imgview.resources == null) {
+            if (imgview.drawable == null) {
                 new_photo_pointer = i
                 break
             } else { new_photo_pointer +=1 }
