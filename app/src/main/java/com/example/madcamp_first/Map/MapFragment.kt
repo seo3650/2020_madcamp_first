@@ -63,9 +63,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         ) {
             ActivityCompat.requestPermissions(
                 context as Activity,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
             return
         }
+
         /*get my location*/
         mMap.isMyLocationEnabled = true
         fusedLocationClient.lastLocation.addOnSuccessListener(context as Activity) { location ->
@@ -79,16 +80,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         return
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     private lateinit var mMap: GoogleMap
     private lateinit var lastLocation: Location
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        mMap.getUiSettings().setZoomControlsEnabled(true)
+        mMap.uiSettings.isZoomControlsEnabled = true
         mMap.setOnMarkerClickListener(this)
         setUpMap()
     }
@@ -106,15 +103,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
             context?.let { LocationServices.getFusedLocationProviderClient(it) }!! // oncreate에 해야될 수도 있다
 
         /* Get contacts */
-        val adapter =
-            ContactAdapter({ contact ->
-            }, { contact ->
-            })
+        val adapter = ContactAdapter({},{})
         val lm = LinearLayoutManager(context)
         root.main_recycleview.adapter = adapter
         root.main_recycleview.layoutManager = lm
         root.main_recycleview.setHasFixedSize(true)
-        val application = activity?.application?:return null
         contactViewModel = ViewModelProviders.of(this).get(ContactViewModel::class.java)
         context?.let {
             contactViewModel.getAll(it).observe(this, Observer<List<Contact>> { contacts ->
@@ -123,8 +116,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         }
         return root
     }
-
-//    fun setContactView()
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
