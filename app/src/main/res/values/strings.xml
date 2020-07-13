@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">madcamp_first</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_1">Contacts</string>
+    <string name="tab_text_2">Gallery</string>
+    <string name="tab_text_3">Map</string>
+    <string name="add">Add</string>
+    <string name="hello_mvvm">Hello MVVM!</string>
+    <string name="name">Name</string>
 </resources>
