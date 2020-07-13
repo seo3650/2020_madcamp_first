@@ -19,6 +19,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -78,7 +81,19 @@ class GalleryFragment : Fragment() {
     }
 
     private var screened_big_image = 1
-    private var new_photo_pointer = 11 // 초기값
+    private var new_photo_pointer = 1
+
+    private fun init_new_photo_pointer(view: View){
+        for (i in 1..20){
+            val imgViewID = "imageButton$i"
+            val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
+            val imgview : ImageButton = view.findViewById(resID)
+            if (imgview.resources == null) {
+                new_photo_pointer = i
+                break
+            } else { new_photo_pointer +=1 }
+        }
+    }
 
     private fun select_view_drawable(view:View):Drawable?{
         val imgViewID = "imageButton$screened_big_image"
@@ -123,14 +138,24 @@ class GalleryFragment : Fragment() {
             }
         }
         view.delete_button.setOnClickListener {
-            delete_image(view)
-            new_photo_pointer -= 1
-            if(screened_big_image == new_photo_pointer){
-                screened_big_image -=1
-            }
-            if(screened_big_image == 0){
-                go_small(view)
-            } else {view.Bigscreen.setImageDrawable(select_view_drawable(view))}
+            val builder = AlertDialog.Builder(context as Activity)
+            val dialogView = layoutInflater.inflate(R.layout.alert_gallery, null)
+            builder.setView(dialogView)
+                .setPositiveButton("확인") { dialogInterface, i ->
+                    /* 확인일 때 */
+                    delete_image(view)
+                    new_photo_pointer -= 1
+                    if(screened_big_image == new_photo_pointer){
+                        screened_big_image -=1
+                    }
+                    if(screened_big_image == 0){
+                        go_small(view)
+                    } else {view.Bigscreen.setImageDrawable(select_view_drawable(view))}
+                }
+                .setNegativeButton("취소") { dialogInterface, i ->
+                    /* 취소일 때 아무 액션이 없으므로 빈칸 */
+                }
+                .show()
         }
 
         view.goOut.setOnClickListener { //go back to thumbnail
@@ -236,6 +261,9 @@ class GalleryFragment : Fragment() {
             imageView?.setImageBitmap(it)
         })
 
+        /*initiate new photo pointer*/
+        init_new_photo_pointer(root)
+
         for (i in 1..20){
             val imgViewID = "imageButton$i"
             val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
@@ -251,8 +279,7 @@ class GalleryFragment : Fragment() {
         val addButton = root.findViewById<Button>(R.id.add_button)
         addButton.setOnClickListener {
             if (new_photo_pointer>20) {
-                // TODO: 2020-07-13 error message:"no space!"
-
+                Toast.makeText(context as Activity, "공간이 부족합니다", Toast.LENGTH_SHORT).show()
             } else {
             val imgViewID = "imageButton$new_photo_pointer"
             val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
