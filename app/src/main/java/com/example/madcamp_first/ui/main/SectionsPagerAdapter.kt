@@ -6,12 +6,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.madcamp_first.Contact.ContactFragment
 import com.example.madcamp_first.Gallery.GalleryFragment
-
+import com.example.madcamp_first.Map.MapFragment
 import com.example.madcamp_first.R
 
 private val TAB_TITLES = arrayOf(
         R.string.tab_text_1,
-        R.string.tab_text_2
+        R.string.tab_text_2,
+        R.string.tab_text_3
 )
 
 /**
@@ -27,6 +28,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager)
         return when(position) {
             0 -> ContactFragment.newInstance()
             1 -> GalleryFragment.newInstance()
+            2 -> MapFragment.newInstance()
             else -> PlaceholderFragment.newInstance(position + 1)
         }
     }
@@ -36,7 +38,6 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager)
     }
 
     override fun getCount(): Int {
-        // Show 2 total pages.
-        return 2
+        return 3
     }
 }
