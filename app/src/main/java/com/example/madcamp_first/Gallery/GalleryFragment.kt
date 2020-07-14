@@ -161,14 +161,6 @@ class GalleryFragment : Fragment() {
     }
 
     private fun sendPicture(imgUri:Uri) {
-        if (context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.READ_EXTERNAL_STORAGE) }
-            != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                context as Activity,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
-            )
-        }
         val imagePath = getRealPathFromURI(imgUri) // path 경로
         val bitmap = getResizePicture(imagePath)
         galleryViewModel.updateImage(bitmap)
