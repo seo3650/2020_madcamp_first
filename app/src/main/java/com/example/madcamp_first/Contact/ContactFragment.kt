@@ -72,7 +72,7 @@ class ContactFragment : Fragment() {
         }
 
 
-        val addButton = root.findViewById<Button>(R.id.main_button)
+        val addButton = root.main_button
 
         addButton.setOnClickListener {
             insert()
@@ -88,7 +88,8 @@ class ContactFragment : Fragment() {
             Manifest.permission.READ_CONTACTS,
             Manifest.permission.WRITE_CONTACTS,
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.CAMERA
         )
 
         for (permission in requiredPermission) {
@@ -117,7 +118,7 @@ class ContactFragment : Fragment() {
                 if (grantResults.isEmpty()) {
                     return
                 }
-                for ((i, permission) in permissions.withIndex()) {
+                for ((i, _) in permissions.withIndex()) {
                     if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                         checkPermissions()
                     }

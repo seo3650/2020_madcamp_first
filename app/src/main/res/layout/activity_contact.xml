@@ -20,15 +20,16 @@
         app:layout_constraintBottom_toTopOf="@+id/main_button"
         tools:listitem="@layout/item_contact" />
 
-    <Button
+    <ImageView
         android:id="@+id/main_button"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Add"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_recycleview" />
+        app:layout_constraintTop_toBottomOf="@+id/main_recycleview"
+        android:scaleType="fitCenter"
+        android:src="@drawable/add_user_customise" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

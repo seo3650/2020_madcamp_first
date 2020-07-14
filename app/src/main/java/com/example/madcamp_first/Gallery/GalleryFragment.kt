@@ -1,10 +1,8 @@
 package com.example.madcamp_first.Gallery
 
-import android.Manifest
 import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -13,29 +11,64 @@ import android.graphics.drawable.Drawable
 import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.madcamp_first.R
 import kotlinx.android.synthetic.main.activity_gallery.view.*
-
-
-private const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class GalleryFragment : Fragment() {
 
     private lateinit var galleryViewModel: GalleryViewModel
+    private var currentPhotoPath = ""
+
+    private fun addImagefromCamera(){
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(activity!!.packageManager)?.also {
+                val photoFile: File? = try{
+                    createImageFile()
+                }catch(ex:IOException){
+                    null
+                }
+                photoFile?.also{
+                    val photoURI : Uri = FileProvider.getUriForFile(
+                        context as Activity,
+                        "com.example.madcamp_first.fileprovider",
+                        it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, CAMERA_CODE)
+                }
+            }
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun createImageFile() : File{
+        val timeStamp : String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir : File? = context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_",
+            ".jpg",
+            storageDir
+        ).apply{
+            currentPhotoPath = absolutePath
+        }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -46,12 +79,12 @@ class GalleryFragment : Fragment() {
                 }
             }
             if (requestCode == CAMERA_CODE) {
-                if (data != null) {
-                    data.data?.let { sendPicture(it) }
+                val newbitmap = getResizePicture(currentPhotoPath)
+                imageView?.setImageBitmap(newbitmap)
+                new_photo_pointer += 1
+                    }
                 }
             }
-        }
-    }
 
     private val CAMERA_CODE = 1111
     private val GALLERY_CODE =1112
@@ -133,7 +166,7 @@ class GalleryFragment : Fragment() {
             val builder = AlertDialog.Builder(context as Activity)
             val dialogView = layoutInflater.inflate(R.layout.alert_gallery, null)
             builder.setView(dialogView)
-                .setPositiveButton("확인") { dialogInterface, i ->
+                .setPositiveButton("확인") { _, _ ->
                     /* 확인일 때 */
                     delete_image(view)
                     new_photo_pointer -= 1
@@ -144,7 +177,7 @@ class GalleryFragment : Fragment() {
                         go_small(view)
                     } else {view.Bigscreen.setImageDrawable(select_view_drawable(view))}
                 }
-                .setNegativeButton("취소") { dialogInterface, i ->
+                .setNegativeButton("취소") { _, _ ->
                     /* 취소일 때 아무 액션이 없으므로 빈칸 */
                 }
                 .show()
@@ -182,7 +215,7 @@ class GalleryFragment : Fragment() {
             val exifOrientation = it.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
             exifDegree = exifOreintationToDegrees(exifOrientation)
         }
-        return roteateBitmap(resizeBitmap, exifDegree)
+        return rotateBitmap(resizeBitmap, exifDegree)
 
     }
 
@@ -201,7 +234,7 @@ class GalleryFragment : Fragment() {
         }
     }
 
-    private fun roteateBitmap(src:Bitmap, degree:Float): Bitmap { // 똑바르게 서도록 회전시키는 함수
+    private fun rotateBitmap(src:Bitmap, degree:Float): Bitmap { // 똑바르게 서도록 회전시키는 함수
         // Matrix 객체 생성
         val matrix = Matrix()
         // 회전 각도 셋팅
@@ -232,12 +265,13 @@ class GalleryFragment : Fragment() {
     }
 
 
-    private fun addImage() {
+    private fun addImagefromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         intent.type = "image/*"
         startActivityForResult(intent, GALLERY_CODE)
     }
+
 
     private var imageView: ImageButton? = null //새로운 사진을 담을 View
 
@@ -277,7 +311,19 @@ class GalleryFragment : Fragment() {
             val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
             val imgview : ImageButton = root.findViewById(resID)
             imageView = imgview
-            addImage()
+            addImagefromGallery()
+            }
+        }
+        val cameraButton = root.findViewById<Button>(R.id.camera_button)
+        cameraButton.setOnClickListener {
+            if (new_photo_pointer>20) {
+                Toast.makeText(context as Activity, "공간이 부족합니다", Toast.LENGTH_SHORT).show()
+            } else {
+                val imgViewID = "imageButton$new_photo_pointer"
+                val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
+                val imgview : ImageButton = root.findViewById(resID)
+                imageView = imgview
+                addImagefromCamera()
             }
         }
 
