@@ -32,19 +32,21 @@
                     android:id="@+id/imageButton1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside"
-                    app:srcCompat="@drawable/barley" />
+                    app:srcCompat="@drawable/number1" />
 
                 <ImageButton
                     android:id="@+id/imageButton2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside"
-                    app:srcCompat="@drawable/cloud" />
+                    app:srcCompat="@drawable/number2" />
 
 
             </LinearLayout>
@@ -59,19 +61,21 @@
                     android:id="@+id/imageButton3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside"
-                    app:srcCompat="@drawable/cloud" />
+                    app:srcCompat="@drawable/number3" />
 
                 <ImageButton
                     android:id="@+id/imageButton4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside"
-                    app:srcCompat="@drawable/barley" />
+                    app:srcCompat="@drawable/number4" />
             </LinearLayout>
 
             <LinearLayout
@@ -84,19 +88,21 @@
                     android:id="@+id/imageButton5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside"
-                    app:srcCompat="@drawable/cloud" />
+                    app:srcCompat="@drawable/number5" />
 
                 <ImageButton
                     android:id="@+id/imageButton6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside"
-                    app:srcCompat="@drawable/barley" />
+                    app:srcCompat="@drawable/number6" />
             </LinearLayout>
 
 
@@ -110,18 +116,21 @@
                     android:id="@+id/imageButton7"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside"
-                    app:srcCompat="@drawable/cloud" />
+                    app:srcCompat="@drawable/number7" />
 
                 <ImageButton
                     android:id="@+id/imageButton8"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/barley" />
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/number8" />
             </LinearLayout>
 
             <LinearLayout
@@ -134,19 +143,19 @@
                     android:id="@+id/imageButton9"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
-                    app:srcCompat="@drawable/cloud" />
+                    android:scaleType="centerInside" />
 
                 <ImageButton
                     android:id="@+id/imageButton10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
-                    app:srcCompat="@drawable/barley" />
+                    android:scaleType="centerInside" />
             </LinearLayout>
 
             <LinearLayout
@@ -159,6 +168,7 @@
                     android:id="@+id/imageButton11"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside" />
@@ -167,6 +177,7 @@
                     android:id="@+id/imageButton12"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside" />
@@ -182,6 +193,7 @@
                     android:id="@+id/imageButton13"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside" />
@@ -190,6 +202,7 @@
                     android:id="@+id/imageButton14"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside" />
@@ -205,6 +218,7 @@
                     android:id="@+id/imageButton15"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside" />
@@ -213,6 +227,7 @@
                     android:id="@+id/imageButton16"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside" />
@@ -228,6 +243,7 @@
                     android:id="@+id/imageButton17"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside" />
@@ -236,6 +252,7 @@
                     android:id="@+id/imageButton18"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside" />
@@ -251,6 +268,7 @@
                     android:id="@+id/imageButton19"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside" />
@@ -259,6 +277,7 @@
                     android:id="@+id/imageButton20"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside" />
@@ -298,8 +317,8 @@
         android:layout_height="wrap_content"
         android:text="→"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/goPrev"
@@ -307,43 +326,36 @@
         android:layout_height="wrap_content"
         android:text="←"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/goOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="4dp"
         android:text="↓"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/goNext"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/scrollView1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/cloud" />
+        app:layout_constraintEnd_toStartOf="@+id/goNext" />
 
     <Button
-        android:id="@+id/gallery_add_button"
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="4dp"
+        android:text="-"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView1"
+        app:layout_constraintStart_toEndOf="@+id/goPrev" />
+
+    <Button
+        android:id="@+id/add_button"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Add"
+        android:text="+"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -8,6 +8,9 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.graphics.drawable.Drawable
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -16,6 +19,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -24,15 +30,12 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.madcamp_first.R
 import kotlinx.android.synthetic.main.activity_gallery.view.*
 
+
 private const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 
 class GalleryFragment : Fragment() {
 
     private lateinit var galleryViewModel: GalleryViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -50,127 +53,193 @@ class GalleryFragment : Fragment() {
         }
     }
 
-    val CAMERA_CODE = 1111;
-    val GALLERY_CODE =1112;
+    private val CAMERA_CODE = 1111
+    private val GALLERY_CODE =1112
 
-    fun getRealPathFromURI(uri: Uri): String? {
+    private fun getRealPathFromURI(uri: Uri): String? {
         var columnIndex = 0
-        var proj = arrayOf(MediaStore.Images.Media.DATA)
-        var cursor: Cursor = uri?.let { context?.contentResolver?.query(it, proj, null, null, null) }
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor: Cursor = uri.let { context?.contentResolver?.query(it, proj, null, null, null) }
             ?:return null
         if (cursor.moveToFirst()) { columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA) }
         return cursor.getString(columnIndex)
     }
 
-    fun sendPicture(imgUri:Uri) {
-        if (context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.READ_EXTERNAL_STORAGE) }
-            != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                context as Activity,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
-            )
-        } // TODO: Consider denied permission
-        var imagePath = getRealPathFromURI(imgUri) // path 경로
-        val bitmap = BitmapFactory.decodeFile(imagePath)//경로를 통해 비트맵으로 전환
+    private fun sendPicture(imgUri:Uri) {
+        val imagePath = getRealPathFromURI(imgUri) // path 경로
+        val bitmap = getResizePicture(imagePath)
         galleryViewModel.updateImage(bitmap)
         new_photo_pointer += 1
     }
 
-    var screened_big_image = 1
-    var new_photo_pointer = 10
+    private var screened_big_image = 1
+    private var new_photo_pointer = 1
 
-    private fun select_big_image(view: View){
-        if (screened_big_image == 1) {
-            view.Bigscreen.setImageDrawable(view.imageButton1.drawable)
-        }
-        if (screened_big_image == 2) {
-            view.Bigscreen.setImageDrawable(view.imageButton2.drawable)
-        }
-        if (screened_big_image == 3) {
-            view.Bigscreen.setImageDrawable(view.imageButton3.drawable)
-        }
-        if (screened_big_image == 4) {
-            view.Bigscreen.setImageDrawable(view.imageButton4.drawable)
-        }
-        if (screened_big_image == 5) {
-            view.Bigscreen.setImageDrawable(view.imageButton5.drawable)
-        }
-        if (screened_big_image == 6) {
-            view.Bigscreen.setImageDrawable(view.imageButton6.drawable)
-        }
-        if (screened_big_image == 7) {
-            view.Bigscreen.setImageDrawable(view.imageButton7.drawable)
-        }
-        if (screened_big_image == 8) {
-            view.Bigscreen.setImageDrawable(view.imageButton8.drawable)
-        }
-        if (screened_big_image == 9) {
-            view.Bigscreen.setImageDrawable(view.imageButton9.drawable)
-        }
-        if (screened_big_image == 10) {
-            view.Bigscreen.setImageDrawable(view.imageButton10.drawable)
-        }
-        if (screened_big_image == 11) {
-            view.Bigscreen.setImageDrawable(view.imageButton11.drawable)
-        }
-        if (screened_big_image == 12) {
-            view.Bigscreen.setImageDrawable(view.imageButton12.drawable)
-        }
-        if (screened_big_image == 13) {
-            view.Bigscreen.setImageDrawable(view.imageButton13.drawable)
-        }
-        if (screened_big_image == 14) {
-            view.Bigscreen.setImageDrawable(view.imageButton14.drawable)
-        }
-        if (screened_big_image == 15) {
-            view.Bigscreen.setImageDrawable(view.imageButton15.drawable)
-        }
-        if (screened_big_image == 16) {
-            view.Bigscreen.setImageDrawable(view.imageButton16.drawable)
-        }
-        if (screened_big_image == 17) {
-            view.Bigscreen.setImageDrawable(view.imageButton17.drawable)
-        }
-        if (screened_big_image == 18) {
-            view.Bigscreen.setImageDrawable(view.imageButton18.drawable)
-        }
-        if (screened_big_image == 19) {
-            view.Bigscreen.setImageDrawable(view.imageButton19.drawable)
-        }
-        if (screened_big_image == 20) {
-            view.Bigscreen.setImageDrawable(view.imageButton20.drawable)
+    private fun init_new_photo_pointer(view: View){
+        for (i in 1..20){
+            val imgViewID = "imageButton$i"
+            val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
+            val imgview : ImageButton = view.findViewById(resID)
+            if (imgview.drawable == null) {
+                new_photo_pointer = i
+                break
+            } else { new_photo_pointer +=1 }
         }
     }
 
-    private fun go_to_bigscreen(view:View) {
+    private fun select_view_drawable(view:View):Drawable?{
+        val imgViewID = "imageButton$screened_big_image"
+        val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
+        val imgview : ImageButton = view.findViewById(resID)
+        return imgview.drawable
+    }
+
+    private fun go_big(view:View){
         view.scrollView1.visibility = View.INVISIBLE
+        view.add_button.visibility = View.INVISIBLE
         view.Bigscreen.visibility = View.VISIBLE
         view.goOut.visibility = View.VISIBLE
+        view.delete_button.visibility = View.VISIBLE
         view.goNext.visibility = View.VISIBLE
         view.goPrev.visibility = View.VISIBLE
+    }
+    private fun go_small(view: View){
+        view.scrollView1.visibility = View.VISIBLE
+        view.add_button.visibility = View.VISIBLE
+        view.Bigscreen.visibility = View.INVISIBLE
+        view.goOut.visibility = View.INVISIBLE
+        view.delete_button.visibility = View.INVISIBLE
+        view.goNext.visibility = View.INVISIBLE
+        view.goPrev.visibility = View.INVISIBLE
+    }
 
-        select_big_image(view)
+    private fun go_to_bigscreen(view:View) {
+        go_big(view)
+        view.Bigscreen.setImageDrawable(select_view_drawable(view))
+
         view.goNext.setOnClickListener {
-            if (screened_big_image < new_photo_pointer){ // 마지막 사진에서는 Next가 작동하지 않음
+            if (screened_big_image < new_photo_pointer - 1){ // 마지막 사진에서는 Next가 작동하지 않음
                 screened_big_image += 1
-                select_big_image(view)
+                view.Bigscreen.setImageDrawable(select_view_drawable(view))
             }
         }
         view.goPrev.setOnClickListener {
             if (screened_big_image > 1){ // 처음 사진에서는 Prev가 작동하지 않음
                 screened_big_image -=1
-                select_big_image(view)
+                view.Bigscreen.setImageDrawable(select_view_drawable(view))
             }
         }
+        view.delete_button.setOnClickListener {
+            val builder = AlertDialog.Builder(context as Activity)
+            val dialogView = layoutInflater.inflate(R.layout.alert_gallery, null)
+            builder.setView(dialogView)
+                .setPositiveButton("확인") { dialogInterface, i ->
+                    /* 확인일 때 */
+                    delete_image(view)
+                    new_photo_pointer -= 1
+                    if(screened_big_image == new_photo_pointer){
+                        screened_big_image -=1
+                    }
+                    if(screened_big_image == 0){
+                        go_small(view)
+                    } else {view.Bigscreen.setImageDrawable(select_view_drawable(view))}
+                }
+                .setNegativeButton("취소") { dialogInterface, i ->
+                    /* 취소일 때 아무 액션이 없으므로 빈칸 */
+                }
+                .show()
+        }
+
         view.goOut.setOnClickListener { //go back to thumbnail
-            view.scrollView1.visibility = View.VISIBLE
-            view.Bigscreen.visibility = View.INVISIBLE
-            view.goOut.visibility = View.INVISIBLE
-            view.goNext.visibility = View.INVISIBLE
-            view.goPrev.visibility = View.INVISIBLE
+            go_small(view)
+        }
+
+        return
+    }
+
+    private fun getResizePicture(imagePath: String?): Bitmap { //사진 용량을 줄여주는 함수
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(imagePath, options)
+        val resize = 1000
+        var width = options.outWidth
+        var height = options.outHeight
+        var sampleSize = 1
+        while (true) {
+            if (width / 2 < resize || height / 2 < resize)
+                break
+            width /= 2
+            height /= 2
+            sampleSize *= 2
+        }
+        options.inSampleSize = sampleSize
+        options.inJustDecodeBounds = false
+
+        val resizeBitmap = BitmapFactory.decodeFile(imagePath, options)
+        val exit = imagePath?.let { ExifInterface(it) }
+        var exifDegree = 0F
+        exit?.let {
+            val exifOrientation = it.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+            exifDegree = exifOreintationToDegrees(exifOrientation)
+        }
+        return roteateBitmap(resizeBitmap, exifDegree)
+
+    }
+
+    private fun exifOreintationToDegrees(exifOrientation:Int):Float { // 사진이 얼마나 돌아가 있는지 알려주는 함수
+        return when (exifOrientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> {
+                90F
+            }
+            ExifInterface.ORIENTATION_ROTATE_180 -> {
+                180F
+            }
+            ExifInterface.ORIENTATION_ROTATE_270 -> {
+                270F
+            }
+            else -> 0F
         }
     }
+
+    private fun roteateBitmap(src:Bitmap, degree:Float): Bitmap { // 똑바르게 서도록 회전시키는 함수
+        // Matrix 객체 생성
+        val matrix = Matrix()
+        // 회전 각도 셋팅
+        matrix.postRotate(degree)
+        // 이미지와 Matrix 를 셋팅해서 Bitmap 객체 생성
+        return Bitmap.createBitmap(src, 0, 0, src.width, src.height, matrix, true)
+        }
+
+    private fun delete_image(view: View) {
+
+        val imgViewID = "imageButton$screened_big_image"
+        val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
+        val imgview : ImageButton = view.findViewById(resID)
+        imgview.setImageResource(0)
+
+        for (i in screened_big_image..19){
+            val imgViewID1 = "imageButton$i"
+            val resID1 = resources.getIdentifier(imgViewID1, "id", context?.packageName)
+            val imgview1 : ImageButton = view.findViewById(resID1)
+
+            val j = i+1
+            val imgViewID2 = "imageButton$j"
+            val resID2 = resources.getIdentifier(imgViewID2, "id", context?.packageName)
+            val imgview2 : ImageButton = view.findViewById(resID2)
+            imgview1.setImageDrawable(imgview2.drawable)
+        }
+        view.imageButton20.setImageResource(0)
+    }
+
+
+    private fun addImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        intent.type = "image/*"
+        startActivityForResult(intent, GALLERY_CODE)
+    }
+
+    private var imageView: ImageButton? = null //새로운 사진을 담을 View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -179,131 +248,41 @@ class GalleryFragment : Fragment() {
         val root = inflater.inflate(R.layout.activity_gallery, container, false)
 
         /* Observe user's image */
-        var imageView: ImageButton = root.findViewById(R.id.imageButton11)
         galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel::class.java)
         galleryViewModel.imageView.observe(this, Observer<Bitmap> {
-            imageView.setImageBitmap(it)
+            imageView?.setImageBitmap(it)
         })
 
-        if (new_photo_pointer >= 1) {
-            root.imageButton1.setOnClickListener {
-                screened_big_image = 1
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 2) {
-            root.imageButton2.setOnClickListener {
-                screened_big_image = 2
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 3) {
-            root.imageButton3.setOnClickListener {
-                screened_big_image = 3
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 4) {
-            root.imageButton4.setOnClickListener {
-                screened_big_image = 4
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 5) {
-            root.imageButton5.setOnClickListener {
-                screened_big_image = 5
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 6) {
-            root.imageButton6.setOnClickListener {
-                screened_big_image = 6
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 7) {
-            root.imageButton7.setOnClickListener {
-                screened_big_image = 7
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 8 ) {
-            root.imageButton8.setOnClickListener {
-                screened_big_image = 8
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 9) {
-            root.imageButton9.setOnClickListener {
-                screened_big_image = 9
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 10) {
-            root.imageButton10.setOnClickListener {
-                screened_big_image = 10
-                go_to_bigscreen(root) }
-        }
+        /*initiate new photo pointer*/
+        init_new_photo_pointer(root)
 
-            root.imageButton11.setOnClickListener {
-                if (new_photo_pointer >= 11) {
-                screened_big_image = 11
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 12) {
-            root.imageButton12.setOnClickListener {
-                screened_big_image = 12
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 13) {
-            root.imageButton13.setOnClickListener {
-                screened_big_image = 13
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 14) {
-            root.imageButton14.setOnClickListener {
-                screened_big_image = 14
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 15) {
-            root.imageButton15.setOnClickListener {
-                screened_big_image = 15
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 16) {
-            root.imageButton16.setOnClickListener {
-                screened_big_image = 16
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 17) {
-            root.imageButton17.setOnClickListener {
-                screened_big_image = 17
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 18) {
-            root.imageButton18.setOnClickListener {
-                screened_big_image = 18
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 19) {
-            root.imageButton19.setOnClickListener {
-                screened_big_image = 19
-                go_to_bigscreen(root) }
-        }
-        if (new_photo_pointer >= 20) {
-            root.imageButton20.setOnClickListener {
-                screened_big_image = 20
-                go_to_bigscreen(root) }
+        for (i in 1..20){
+            val imgViewID = "imageButton$i"
+            val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
+            val imgview : ImageButton = root.findViewById(resID)
+            imgview.setOnClickListener{
+                if (new_photo_pointer > i) {
+                    screened_big_image = i
+                    go_to_bigscreen(root) }
+            }
         }
 
         /* Add new image */
-        val addButton = root.findViewById<Button>(R.id.gallery_add_button)
-
+        val addButton = root.findViewById<Button>(R.id.add_button)
         addButton.setOnClickListener {
+            if (new_photo_pointer>20) {
+                Toast.makeText(context as Activity, "공간이 부족합니다", Toast.LENGTH_SHORT).show()
+            } else {
+            val imgViewID = "imageButton$new_photo_pointer"
+            val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
+            val imgview : ImageButton = root.findViewById(resID)
+            imageView = imgview
             addImage()
+            }
         }
 
         return root
     }
-
-    fun addImage() {
-        var intent = Intent(Intent.ACTION_PICK)
-        intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        intent.type = "image/*"
-        startActivityForResult(intent, GALLERY_CODE)
-    }
-
 
     companion object {
         @JvmStatic

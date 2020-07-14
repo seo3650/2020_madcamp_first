@@ -6,4 +6,10 @@
     <string name="add">Add</string>
     <string name="hello_mvvm">Hello MVVM!</string>
     <string name="name">Name</string>
+    <string name="delete_message">삭제하시겠습니까?</string>
+    <string name="call">Call</string>
+    <string name="text">Text</string>
+    <string name="delete">Delete</string>
+    <string name="undefined">UNDEFINED</string>
+    <string name="madcamp">MADCAMP</string>
 </resources>
