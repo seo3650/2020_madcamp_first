@@ -1,6 +1,7 @@
 package com.example.madcamp_first.Gallery
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
@@ -80,7 +81,7 @@ class GalleryFragment : Fragment() {
 
     fun addImagefromCamera(){
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            takePictureIntent.resolveActivity(packageManager)?.also {
+            takePictureIntent.resolveActivity(activity!!.packageManager)?.also {
                 val photoFile: File? = try{
                     createImageFile()
                 }catch(ex:IOException){
@@ -102,7 +103,7 @@ class GalleryFragment : Fragment() {
     @Throws(IOException::class)
     private fun createImageFile() : File{
         val timeStamp : String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir : File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir : File? = context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
             "JPEG_${timeStamp}_",
             ".jpg",
@@ -125,14 +126,14 @@ class GalleryFragment : Fragment() {
                     val file = File(currentPhotoPath)
                     if (Build.VERSION.SDK_INT < 28) {
                         val bitmap = MediaStore.Images.Media
-                            .getBitmap(contentResolver, Uri.fromFile(file))
-                        img_picture.setImageBitmap(bitmap)
+                            .getBitmap(context!!.contentResolver, Uri.fromFile(file))
+                        imageView!!.setImageBitmap(bitmap)
                     }
                     else{
-                        val decode = ImageDecoder.createSource(this.contentResolver,
+                        val decode = ImageDecoder.createSource(context!!.contentResolver,
                             Uri.fromFile(file))
                         val bitmap = ImageDecoder.decodeBitmap(decode)
-                        img_picture.setImageBitmap(bitmap)
+                        imageView!!.setImageBitmap(bitmap)
                     }
                         }
                     }
