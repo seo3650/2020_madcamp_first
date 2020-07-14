@@ -72,7 +72,7 @@ class ContactFragment : Fragment() {
         }
 
 
-        val addButton = root.findViewById<Button>(R.id.main_button)
+        val addButton = root.main_button
 
         addButton.setOnClickListener {
             insert()
@@ -117,7 +117,7 @@ class ContactFragment : Fragment() {
                 if (grantResults.isEmpty()) {
                     return
                 }
-                for ((i, permission) in permissions.withIndex()) {
+                for ((i, _) in permissions.withIndex()) {
                     if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                         checkPermissions()
                     }

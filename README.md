@@ -14,3 +14,7 @@ You can import new pictures from the gallery and delete them.
 ### TAB3
 The third tab shows Google Maps.   
 Users can display where their friends live on Google Maps, and this information is stored through internal storage.
+```
+1. Select user
+2. Long click on map
+```
