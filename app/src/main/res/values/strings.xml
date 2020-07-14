@@ -11,4 +11,5 @@
     <string name="text">Text</string>
     <string name="delete">Delete</string>
     <string name="undefined">UNDEFINED</string>
+    <string name="madcamp">MADCAMP</string>
 </resources>
