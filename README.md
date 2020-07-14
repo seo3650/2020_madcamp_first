@@ -17,4 +17,5 @@ Users can display where their friends live on Google Maps, and this information 
 ```
 1. Select user
 2. Long click on map
+3. Click marker to delete it
 ```
