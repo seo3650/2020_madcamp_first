@@ -19,7 +19,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -141,7 +140,7 @@ class GalleryFragment : Fragment() {
             val builder = AlertDialog.Builder(context as Activity)
             val dialogView = layoutInflater.inflate(R.layout.alert_gallery, null)
             builder.setView(dialogView)
-                .setPositiveButton("확인") { dialogInterface, i ->
+                .setPositiveButton("확인") { _, _ ->
                     /* 확인일 때 */
                     delete_image(view)
                     new_photo_pointer -= 1
@@ -152,7 +151,7 @@ class GalleryFragment : Fragment() {
                         go_small(view)
                     } else {view.Bigscreen.setImageDrawable(select_view_drawable(view))}
                 }
-                .setNegativeButton("취소") { dialogInterface, i ->
+                .setNegativeButton("취소") { _, _ ->
                     /* 취소일 때 아무 액션이 없으므로 빈칸 */
                 }
                 .show()
