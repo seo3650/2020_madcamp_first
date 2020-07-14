@@ -8,12 +8,16 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.graphics.Matrix
 import android.graphics.drawable.Drawable
 import android.media.ExifInterface
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,11 +27,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.madcamp_first.BuildConfig
 import com.example.madcamp_first.R
 import kotlinx.android.synthetic.main.activity_gallery.view.*
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import javax.sql.DataSource
 
 
 private const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
@@ -35,6 +46,71 @@ private const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 class GalleryFragment : Fragment() {
 
     private lateinit var galleryViewModel: GalleryViewModel
+    private var photoUri =""
+    private var currentPhotoPath = ""
+/*
+    private fun selectCamera() {
+        var permission = ContextCompat.checkSelfPermission(context as Activity, Manifest.permission.CAMERA)
+        if (permission == PackageManager.PERMISSION_DENIED) { // 권한 없어서 요청
+            ActivityCompat.requestPermissions(context as Activity, arrayOf(Manifest.permission.CAMERA), REQ_CAMERA_PERMISSION)
+        } else { // 권한 있음
+            var state = Environment.getExternalStorageState()
+            if (TextUtils.equals(state, Environment.MEDIA_MOUNTED)) {
+                var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                intent.resolveActivity(packageManager)?.let {
+                    var photoFile: File? = createImageFile()
+                    photoFile?.let {
+                        var photoUri = FileProvider.getUriForFile(context as Activity, BuildConfig.APPLICATION_ID + ".provider", it)
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+                        startActivityForResult(intent, CAMERA_CODE)
+                        }
+                    }
+                }
+            }
+        }*/
+
+    /*private fun createImageFile(): File { // 사진이 저장될 폴더 있는지 체크
+        var file = File(Environment.getExternalStorageDirectory(), "/path/")
+        if (!file.exists()) file.mkdir()
+        var imageName = "fileName.jpeg"
+        var imageFile = File("${Environment.getExternalStorageDirectory().absoluteFile}/path/", "$imageName")
+        val imagePath = imageFile.absolutePath
+        return imageFile
+    }*/
+
+    fun addImagefromCamera(){
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                val photoFile: File? = try{
+                    createImageFile()
+                }catch(ex:IOException){
+                    null
+                }
+                photoFile?.also{
+                    val photoURI : Uri = FileProvider.getUriForFile(
+                        context as Activity,
+                        "com.example.madcamp_first.fileprovider",
+                        it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, CAMERA_CODE)
+                }
+            }
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun createImageFile() : File{
+        val timeStamp : String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir : File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_",
+            ".jpg",
+            storageDir
+        ).apply{
+            currentPhotoPath = absolutePath
+        }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -46,12 +122,32 @@ class GalleryFragment : Fragment() {
             }
             if (requestCode == CAMERA_CODE) {
                 if (data != null) {
-                    data.data?.let { sendPicture(it) }
+                    val file = File(currentPhotoPath)
+                    if (Build.VERSION.SDK_INT < 28) {
+                        val bitmap = MediaStore.Images.Media
+                            .getBitmap(contentResolver, Uri.fromFile(file))
+                        img_picture.setImageBitmap(bitmap)
+                    }
+                    else{
+                        val decode = ImageDecoder.createSource(this.contentResolver,
+                            Uri.fromFile(file))
+                        val bitmap = ImageDecoder.decodeBitmap(decode)
+                        img_picture.setImageBitmap(bitmap)
+                    }
+                        }
+                    }
                 }
             }
-        }
-    }
 
+
+    /*private fun getPictureForPhoto(imgUri:Uri) {
+        val newbitmap = getResizePicture(currentPhotoPath)
+        imageView?.setImageBitmap(newbitmap)
+    }*/
+
+
+
+    private val REQ_CAMERA_PERMISSION = 1001
     private val CAMERA_CODE = 1111
     private val GALLERY_CODE =1112
 
@@ -189,7 +285,7 @@ class GalleryFragment : Fragment() {
             val exifOrientation = it.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
             exifDegree = exifOreintationToDegrees(exifOrientation)
         }
-        return roteateBitmap(resizeBitmap, exifDegree)
+        return rotateBitmap(resizeBitmap, exifDegree)
 
     }
 
@@ -208,7 +304,7 @@ class GalleryFragment : Fragment() {
         }
     }
 
-    private fun roteateBitmap(src:Bitmap, degree:Float): Bitmap { // 똑바르게 서도록 회전시키는 함수
+    private fun rotateBitmap(src:Bitmap, degree:Float): Bitmap { // 똑바르게 서도록 회전시키는 함수
         // Matrix 객체 생성
         val matrix = Matrix()
         // 회전 각도 셋팅
@@ -239,11 +335,17 @@ class GalleryFragment : Fragment() {
     }
 
 
-    private fun addImage() {
+    private fun addImagefromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         intent.type = "image/*"
         startActivityForResult(intent, GALLERY_CODE)
+    }
+    private fun addImagefromCamera2(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        intent.type = "image/*"
+        startActivityForResult(intent, CAMERA_CODE)
     }
 
     private var imageView: ImageButton? = null //새로운 사진을 담을 View
@@ -284,7 +386,20 @@ class GalleryFragment : Fragment() {
             val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
             val imgview : ImageButton = root.findViewById(resID)
             imageView = imgview
-            addImage()
+            addImagefromGallery()
+            }
+        }
+        val cameraButton = root.findViewById<Button>(R.id.camera_button)
+        cameraButton.setOnClickListener {
+            if (new_photo_pointer>20) {
+                Toast.makeText(context as Activity, "공간이 부족합니다", Toast.LENGTH_SHORT).show()
+            } else {
+                val imgViewID = "imageButton$new_photo_pointer"
+                val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
+                val imgview : ImageButton = root.findViewById(resID)
+                imageView = imgview
+                // TODO: 2020-07-14  // permission for camera
+                addImagefromCamera()
             }
         }
 
