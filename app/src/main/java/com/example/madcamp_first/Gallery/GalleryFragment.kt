@@ -1,5 +1,6 @@
 package com.example.madcamp_first.Gallery
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
@@ -51,12 +52,13 @@ class GalleryFragment : Fragment() {
                         it
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, CAMERA_CODE)
+                    startActivityForResult(takePictureIntent, cameraCode)
                 }
             }
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     @Throws(IOException::class)
     private fun createImageFile() : File{
         val timeStamp : String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
@@ -73,21 +75,21 @@ class GalleryFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
-            if (requestCode == GALLERY_CODE) {
+            if (requestCode == galleryCode) {
                 if (data != null) {
                     data.data?.let { sendPicture(it) }
                 }
             }
-            if (requestCode == CAMERA_CODE) {
+            if (requestCode == cameraCode) {
                 val newbitmap = getResizePicture(currentPhotoPath)
                 imageView?.setImageBitmap(newbitmap)
-                new_photo_pointer += 1
+                newPhotoPointer += 1
                     }
                 }
             }
 
-    private val CAMERA_CODE = 1111
-    private val GALLERY_CODE =1112
+    private val cameraCode = 1111
+    private val galleryCode = 1112
 
     private fun getRealPathFromURI(uri: Uri): String? {
         var columnIndex = 0
@@ -102,32 +104,33 @@ class GalleryFragment : Fragment() {
         val imagePath = getRealPathFromURI(imgUri) // path 경로
         val bitmap = getResizePicture(imagePath)
         galleryViewModel.updateImage(bitmap)
-        new_photo_pointer += 1
+        newPhotoPointer += 1
     }
 
-    private var screened_big_image = 1
-    private var new_photo_pointer = 1
+    private var screenedBigImage = 1
+    private var newPhotoPointer = 1
 
-    private fun init_new_photo_pointer(view: View){
+
+    private fun initNewPhotoPointer(view: View){
         for (i in 1..20){
             val imgViewID = "imageButton$i"
             val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
             val imgview : ImageButton = view.findViewById(resID)
             if (imgview.drawable == null) {
-                new_photo_pointer = i
+                newPhotoPointer = i
                 break
-            } else { new_photo_pointer +=1 }
+            } else { newPhotoPointer +=1 }
         }
     }
 
-    private fun select_view_drawable(view:View):Drawable?{
-        val imgViewID = "imageButton$screened_big_image"
+    private fun selectViewDrawable(view:View):Drawable?{
+        val imgViewID = "imageButton$screenedBigImage"
         val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
         val imgview : ImageButton = view.findViewById(resID)
         return imgview.drawable
     }
 
-    private fun go_big(view:View){
+    private fun goBig(view:View){
         view.scrollView1.visibility = View.INVISIBLE
         view.add_button.visibility = View.INVISIBLE
         view.Bigscreen.visibility = View.VISIBLE
@@ -136,7 +139,7 @@ class GalleryFragment : Fragment() {
         view.goNext.visibility = View.VISIBLE
         view.goPrev.visibility = View.VISIBLE
     }
-    private fun go_small(view: View){
+    private fun goSmall(view: View){
         view.scrollView1.visibility = View.VISIBLE
         view.add_button.visibility = View.VISIBLE
         view.Bigscreen.visibility = View.INVISIBLE
@@ -146,20 +149,20 @@ class GalleryFragment : Fragment() {
         view.goPrev.visibility = View.INVISIBLE
     }
 
-    private fun go_to_bigscreen(view:View) {
-        go_big(view)
-        view.Bigscreen.setImageDrawable(select_view_drawable(view))
+    private fun goToBigscreen(view:View) {
+        goBig(view)
+        view.Bigscreen.setImageDrawable(selectViewDrawable(view))
 
         view.goNext.setOnClickListener {
-            if (screened_big_image < new_photo_pointer - 1){ // 마지막 사진에서는 Next가 작동하지 않음
-                screened_big_image += 1
-                view.Bigscreen.setImageDrawable(select_view_drawable(view))
+            if (screenedBigImage < newPhotoPointer - 1){ // 마지막 사진에서는 Next가 작동하지 않음
+                screenedBigImage += 1
+                view.Bigscreen.setImageDrawable(selectViewDrawable(view))
             }
         }
         view.goPrev.setOnClickListener {
-            if (screened_big_image > 1){ // 처음 사진에서는 Prev가 작동하지 않음
-                screened_big_image -=1
-                view.Bigscreen.setImageDrawable(select_view_drawable(view))
+            if (screenedBigImage > 1){ // 처음 사진에서는 Prev가 작동하지 않음
+                screenedBigImage -=1
+                view.Bigscreen.setImageDrawable(selectViewDrawable(view))
             }
         }
         view.delete_button.setOnClickListener {
@@ -168,14 +171,14 @@ class GalleryFragment : Fragment() {
             builder.setView(dialogView)
                 .setPositiveButton("확인") { _, _ ->
                     /* 확인일 때 */
-                    delete_image(view)
-                    new_photo_pointer -= 1
-                    if(screened_big_image == new_photo_pointer){
-                        screened_big_image -=1
+                    deleteImage(view)
+                    newPhotoPointer -= 1
+                    if(screenedBigImage == newPhotoPointer){
+                        screenedBigImage -=1
                     }
-                    if(screened_big_image == 0){
-                        go_small(view)
-                    } else {view.Bigscreen.setImageDrawable(select_view_drawable(view))}
+                    if(screenedBigImage == 0){
+                        goSmall(view)
+                    } else {view.Bigscreen.setImageDrawable(selectViewDrawable(view))}
                 }
                 .setNegativeButton("취소") { _, _ ->
                     /* 취소일 때 아무 액션이 없으므로 빈칸 */
@@ -184,7 +187,7 @@ class GalleryFragment : Fragment() {
         }
 
         view.goOut.setOnClickListener { //go back to thumbnail
-            go_small(view)
+            goSmall(view)
         }
 
         return
@@ -243,14 +246,14 @@ class GalleryFragment : Fragment() {
         return Bitmap.createBitmap(src, 0, 0, src.width, src.height, matrix, true)
         }
 
-    private fun delete_image(view: View) {
+    private fun deleteImage(view: View) {
 
-        val imgViewID = "imageButton$screened_big_image"
+        val imgViewID = "imageButton$screenedBigImage"
         val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
         val imgview : ImageButton = view.findViewById(resID)
         imgview.setImageResource(0)
 
-        for (i in screened_big_image..19){
+        for (i in screenedBigImage..19){
             val imgViewID1 = "imageButton$i"
             val resID1 = resources.getIdentifier(imgViewID1, "id", context?.packageName)
             val imgview1 : ImageButton = view.findViewById(resID1)
@@ -269,7 +272,7 @@ class GalleryFragment : Fragment() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         intent.type = "image/*"
-        startActivityForResult(intent, GALLERY_CODE)
+        startActivityForResult(intent, galleryCode)
     }
 
 
@@ -288,26 +291,26 @@ class GalleryFragment : Fragment() {
         })
 
         /*initiate new photo pointer*/
-        init_new_photo_pointer(root)
+        initNewPhotoPointer(root)
 
         for (i in 1..20){
             val imgViewID = "imageButton$i"
             val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
             val imgview : ImageButton = root.findViewById(resID)
             imgview.setOnClickListener{
-                if (new_photo_pointer > i) {
-                    screened_big_image = i
-                    go_to_bigscreen(root) }
+                if (newPhotoPointer > i) {
+                    screenedBigImage = i
+                    goToBigscreen(root) }
             }
         }
 
         /* Add new image */
         val addButton = root.findViewById<Button>(R.id.add_button)
         addButton.setOnClickListener {
-            if (new_photo_pointer>20) {
+            if (newPhotoPointer>20) {
                 Toast.makeText(context as Activity, "공간이 부족합니다", Toast.LENGTH_SHORT).show()
             } else {
-            val imgViewID = "imageButton$new_photo_pointer"
+            val imgViewID = "imageButton$newPhotoPointer"
             val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
             val imgview : ImageButton = root.findViewById(resID)
             imageView = imgview
@@ -316,10 +319,10 @@ class GalleryFragment : Fragment() {
         }
         val cameraButton = root.findViewById<Button>(R.id.camera_button)
         cameraButton.setOnClickListener {
-            if (new_photo_pointer>20) {
+            if (newPhotoPointer>20) {
                 Toast.makeText(context as Activity, "공간이 부족합니다", Toast.LENGTH_SHORT).show()
             } else {
-                val imgViewID = "imageButton$new_photo_pointer"
+                val imgViewID = "imageButton$newPhotoPointer"
                 val resID = resources.getIdentifier(imgViewID, "id", context?.packageName)
                 val imgview : ImageButton = root.findViewById(resID)
                 imageView = imgview
