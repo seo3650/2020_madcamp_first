@@ -18,19 +18,5 @@ class MainActivity : AppCompatActivity() {
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
-
     }
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        val root = inflater.inflate(R.layout.activity_main, container, false)
-//        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-//            //noinspection ConstantConditions
-//            TextView tv=(TextView)LayoutInflater.from(this).inflate(R.layout.custom_tab,null)
-//            tv.setTextColor(customColor)
-//            tabLayout.getTabAt(i).setCustomView(tv);
-//
-//        }
-//    }
 }
