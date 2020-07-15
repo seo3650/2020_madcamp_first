@@ -133,15 +133,18 @@ class GalleryFragment : Fragment() {
     private fun goBig(view:View){
         view.scrollView1.visibility = View.INVISIBLE
         view.add_button.visibility = View.INVISIBLE
+        view.camera_button.visibility = View.INVISIBLE
         view.Bigscreen.visibility = View.VISIBLE
         view.goOut.visibility = View.VISIBLE
         view.delete_button.visibility = View.VISIBLE
         view.goNext.visibility = View.VISIBLE
         view.goPrev.visibility = View.VISIBLE
     }
+
     private fun goSmall(view: View){
         view.scrollView1.visibility = View.VISIBLE
         view.add_button.visibility = View.VISIBLE
+        view.camera_button.visibility = View.VISIBLE
         view.Bigscreen.visibility = View.INVISIBLE
         view.goOut.visibility = View.INVISIBLE
         view.delete_button.visibility = View.INVISIBLE
